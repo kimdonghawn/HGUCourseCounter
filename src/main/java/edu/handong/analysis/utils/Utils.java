@@ -40,40 +40,27 @@ public class Utils {
 	{
 		
 		File file = new File(targetFileName);
-		
-		if(!file.exists())
-		{
-			try 
-		{
-			file.mkdirs();
-		}
-	
-			catch(Exception e)
-			{
-				System.out.println(e.getMessage());
-			}
-		}
-		File file2= new File(targetFileName);
+		PrintWriter outputStream = null;
+		String Name = targetFileName;
 		try {
-
-			
-		
-			
-			
-			PrintWriter scanw = new PrintWriter(new FileWriter(file));
-		
-			file2.createNewFile();
-			
-			
-			scanw.println("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
-			for (String str : lines)
-				scanw.println(str);
-			scanw.close();
-			}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
+				File theDir = new File(Name);
+				if (!theDir.getParentFile().exists()) {
+					theDir.getParentFile().mkdirs();
+				}
+				outputStream = new PrintWriter(Name);
 		}
 	
+
+		catch(FileNotFoundException e)
+		{
+			
+			System.out.println(e.getMessage());
+			System.exit(0);
+		}
+		for(String line : lines) {
+			outputStream.println(line);
+		}
+		outputStream.close();
 	}
+	
 }
