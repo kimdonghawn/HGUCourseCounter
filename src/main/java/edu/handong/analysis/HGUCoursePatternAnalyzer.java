@@ -1,5 +1,5 @@
-package edu.handong.analysis;
 
+package edu.handong.analysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,8 +7,10 @@ import java.util.TreeMap;
 
 import edu.handong.analysis.datamodel.Course;
 import edu.handong.analysis.datamodel.Student;
-import edu.handong.analysise.utils.NotEnoughArgumentException;
-import edu.handong.analysise.utils.Utils;
+import edu.handong.analysis.utils.NotEnoughArgumentException;
+import edu.handong.analysis.utils.Utils;
+
+
 
 public class HGUCoursePatternAnalyzer {
 
@@ -52,12 +54,33 @@ public class HGUCoursePatternAnalyzer {
 	 * @param lines
 	 * @return
 	 */
-	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
+	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines)
+	{
 		
+		HashMap < String , Student > newData =  new  HashMap < String , Student > ();
+		
+		for(String stringline: lines)
+		{
+			 String Id = stringline.split(",")[0].trim();
+	         Student newStudent;
+	         if(newData.containsKey(Id))
+	         {
+	        	 newStudent = newData.get(Id);												//if id exist get id
+			 }
+	         else
+	         {
+	        	 newStudent = new Student(Id);		
+	        	 newData.put(Id, newStudent);
+	         }
+		
+	        newStudent.addCourse(new Course(stringline));
+	        
+		}
+	       	return newData; // do not forget to return a proper variable.			
+	}
 		// TODO: Implement this method
 		
-		return null; // do not forget to return a proper variable.
-	}
+	
 
 	/**
 	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
@@ -72,10 +95,27 @@ public class HGUCoursePatternAnalyzer {
 	 * @param sortedStudents
 	 * @return
 	 */
-	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
+	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) 
+	{
+		ArrayList<String> LineSave = new ArrayList<String>();
 		
+		for(String keyCode : sortedStudents.keySet() ) 
+		{
+			
+			String temp=new String();
+			
+			Student student = sortedStudents.get(keyCode);
+			
+			for(int i=1;i<= student.getSemestersByYearAndSemester().size();i++) {
+			
+			temp= student.getStudentId() + "," + student.getSemestersByYearAndSemester().size() + "," + i + "," + student.getNumCourseInNthSementer(i);
+			
+			
+			LineSave.add(temp);
+			}
+		}
 		// TODO: Implement this method
 		
-		return null; // do not forget to return a proper variable.
+		return LineSave; // do not forget to return a proper variable.
 	}
 }
