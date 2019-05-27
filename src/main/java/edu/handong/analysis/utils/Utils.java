@@ -54,12 +54,16 @@ public class Utils {
 		catch(FileNotFoundException e)
 		{
 			
-			System.out.println(e.getMessage());
-			System.exit(0);
+			System.out.println("The file path does not exist. Please check your CLI argument!");
+			e.printStackTrace();
+		
 		}
+		outputStream.println("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
 		for(String line : lines) {
 			outputStream.println(line);
 		}
+		
+
 		outputStream.close();
 	}
 	
